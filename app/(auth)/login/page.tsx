@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { FaTwitter, FaGoogle, FaGithub } from 'react-icons/fa';
 import { signIn } from 'next-auth/react';
 
-import logo from 'public/logo.svg';
+import { logo } from 'public';
 import { Alert } from 'components';
 
 const Login = () => {
@@ -27,7 +27,7 @@ const Login = () => {
         password,
         callbackUrl,
       });
-
+      console.log('callback------->', callbackUrl);
       if (!res?.error) {
         router.push(callbackUrl);
       } else {
@@ -39,13 +39,15 @@ const Login = () => {
   return (
     <div className="flex min-h-screen flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <Image
-          className="mx-auto h-12 w-auto"
-          src={logo}
-          width={141}
-          height={26}
-          alt="Morent"
-        />
+        <Link href="/">
+          <Image
+            src={logo}
+            alt="logo"
+            className="mx-auto h-12 w-auto"
+            width={141}
+            height={26}
+          />
+        </Link>
         <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
           Sign in to your account
         </h2>
@@ -150,7 +152,7 @@ const Login = () => {
               <div>
                 <button
                   className="inline-flex w-full justify-center rounded-md bg-white px-4 py-2 text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0"
-                  onClick={() => signIn('google')}
+                  onClick={() => signIn('google', { callbackUrl: '/' })}
                 >
                   <span className="sr-only">Sign in with Google</span>
                   <div className="flex h-5 w-5 items-center justify-center">
@@ -162,7 +164,7 @@ const Login = () => {
               <div>
                 <button
                   className="inline-flex w-full justify-center rounded-md bg-white px-4 py-2 text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0"
-                  onClick={() => signIn('twitter')}
+                  onClick={() => signIn('twitter', { callbackUrl: '/' })}
                 >
                   <span className="sr-only">Sign in with Twitter</span>
                   <div className="flex h-5 w-5 items-center justify-center">
@@ -174,7 +176,7 @@ const Login = () => {
               <div>
                 <button
                   className="inline-flex w-full justify-center rounded-md bg-white px-4 py-2 text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0"
-                  onClick={() => signIn('github')}
+                  onClick={() => signIn('github', { callbackUrl: '/' })}
                 >
                   <span className="sr-only">Sign in with GitHub</span>
                   <div className="flex h-5 w-5 items-center justify-center">

@@ -1,3 +1,4 @@
 import { Alert } from './ui';
+import Navbar from './Navbar';
 
-export { Alert };
+export { Alert, Navbar };

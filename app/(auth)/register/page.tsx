@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { signIn } from 'next-auth/react';
 
-import logo from 'public/logo.svg';
+import { logo } from 'public';
 import { Alert } from 'components';
 
 const Register = () => {
@@ -43,13 +43,15 @@ const Register = () => {
   return (
     <div className="flex min-h-screen flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <Image
-          className="mx-auto h-12 w-auto"
-          src={logo}
-          width={141}
-          height={26}
-          alt="Morent"
-        />
+        <Link href="/">
+          <Image
+            className="mx-auto h-12 w-auto"
+            src={logo}
+            width={141}
+            height={26}
+            alt="logo"
+          />
+        </Link>
         <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
           Create your account
         </h2>
