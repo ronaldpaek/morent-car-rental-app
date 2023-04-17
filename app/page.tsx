@@ -4,7 +4,7 @@ import { authOptions } from './api/auth/[...nextauth]/route';
 
 const Home = async () => {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-black"></main>
+    <main className="flex min-h-screen flex-col items-center justify-center"></main>
   );
 };
 

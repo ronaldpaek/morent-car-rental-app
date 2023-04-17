@@ -4,7 +4,6 @@ import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { mainNavLinks, userNavLinks } from 'data';
-import { logo } from 'public';
 
 import Link from 'next/link';
 import clsx from 'clsx';
@@ -100,7 +99,7 @@ function Navbar() {
     <Disclosure as="nav">
       {({ open }) => (
         <div
-          className={`bg-white-0 px-4 shadow sm:px-6 lg:px-8 ${
+          className={`bg-white px-4 shadow sm:px-6 lg:px-8 ${
             open ? 'rounded-b-lg' : 'rounded-b-none'
           }`}
         >
@@ -110,7 +109,7 @@ function Navbar() {
                 <div className="flex flex-1">
                   <div className="flex flex-shrink-0 items-center">
                     <Image
-                      src={logo}
+                      src="/logo.svg"
                       alt="Logo"
                       width={141}
                       height={26}

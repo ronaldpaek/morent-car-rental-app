@@ -3,25 +3,20 @@
 import Image from 'next/image';
 
 import { usePathname } from 'next/navigation';
-import { logo } from 'public';
 
 const Footer = () => {
   const pathname = usePathname();
 
-  if (
-    pathname === '/register' ||
-    pathname === '/login'
-  )
-    return null;
+  if (pathname === '/register' || pathname === '/login') return null;
 
   return (
-    <footer className="bg-white-200 md:bg-white-0 pb-6 md:pb-[60px] md:pt-20">
+    <footer className="bg-[#F6F7F9] pb-6 md:bg-white md:pb-[60px] md:pt-20">
       <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-12 px-6 font-medium text-gray-700 md:px-[60px]">
         <div className="flex flex-col gap-12 md:flex-row md:justify-between md:border-b md:border-b-blue-50 md:pb-[60px]">
           <div>
             <div className="mb-4">
               <Image
-                src={logo}
+                src="/logo.svg"
                 alt="logo"
                 width={141}
                 height={26}
