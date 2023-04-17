@@ -1,19 +1,16 @@
-import { Inter } from 'next/font/google';
+import { getServerSession } from 'next-auth/next';
 
-import { prisma } from '@/lib/prisma';
-
-const inter = Inter({ subsets: ['latin'] });
+import { authOptions } from './api/auth/[...nextauth]/route';
+import { LoginButton, LogoutButton } from './auth';
 
 const Home = async () => {
-  const user = await prisma.user.findUnique({
-    where: {
-      email: 'test@test.com',
-    },
-  });
+  const session = await getServerSession(authOptions);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-black text-white">
-      Hello, {user?.name}
+      <LoginButton />
+      <LogoutButton />
+      <pre>{JSON.stringify(session)}</pre>
     </main>
   );
 };
