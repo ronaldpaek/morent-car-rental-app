@@ -1,6 +1,6 @@
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import { Providers } from 'contexts';
-import { Navbar } from 'components';
+import { Navbar, Footer } from 'components';
 import 'styles/globals.css';
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -19,6 +19,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
       <body className="bg-gray-50">
         <Navbar />
         <Providers>{children}</Providers>
+        <Footer />
       </body>
     </html>
   );

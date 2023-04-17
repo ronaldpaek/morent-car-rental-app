@@ -94,12 +94,7 @@ function Navbar() {
 
   const pathname = usePathname();
 
-  if (
-    pathname === '/sign-up' ||
-    pathname === '/sign-in' ||
-    pathname === '/login'
-  )
-    return null;
+  if (pathname === '/register' || pathname === '/login') return null;
 
   return (
     <Disclosure as="nav">

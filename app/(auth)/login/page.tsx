@@ -8,7 +8,7 @@ import { FaTwitter, FaGoogle, FaGithub } from 'react-icons/fa';
 import { signIn } from 'next-auth/react';
 
 import { logo } from 'public';
-import { Alert } from 'components';
+// import { Alert } from 'components';
 
 const Login = () => {
   const router = useRouter();
