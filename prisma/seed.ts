@@ -80,6 +80,15 @@ async function main() {
     },
   });
 
+  const rental2 = await prisma.rental.create({
+    data: {
+      startDate: new Date(2023, 4, 10),
+      endDate: new Date(2023, 4, 12),
+      carId: car1.id,
+      userId: user2.id,
+    },
+  });
+
   console.log('Seeding complete!');
 }
 

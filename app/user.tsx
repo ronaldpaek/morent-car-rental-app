@@ -3,22 +3,32 @@
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 
+interface User {
+  name?: string | null | undefined;
+  email?: string | null | undefined;
+  image?: string | null | undefined;
+  id?: string | null | undefined; // Add the `id` property to the type definition
+}
+
 const User = () => {
   const { data: session } = useSession();
   console.log('Client Session', session);
+
+  const user = session?.user as User | undefined;
   return (
     <>
-      <span>{session?.user?.email}</span>
-      <span>{session?.user?.name}</span>
-      {session?.user?.image && (
+      <span>{user?.email}</span>
+      <span>{user?.name}</span>
+      {user?.image && (
         <Image
-          src={session.user.image}
+          src={user.image}
           alt="user Avatar"
           width={40}
           height={40}
           className="h-auto w-auto"
         />
       )}
+      <span>{user?.id}</span>
     </>
   );
 };

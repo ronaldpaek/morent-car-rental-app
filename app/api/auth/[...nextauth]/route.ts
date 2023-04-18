@@ -3,9 +3,10 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import TwitterProvider from 'next-auth/providers/twitter';
 import GoogleProvider from 'next-auth/providers/google';
 import GithubProvider from 'next-auth/providers/github';
+import { compare } from 'bcrypt';
 
 import { prisma } from 'lib/prisma';
-import { compare } from 'bcrypt';
+import { generateAvatarUrl } from 'lib/avatar';
 
 export const authOptions: NextAuthOptions = {
   pages: {
@@ -61,7 +62,7 @@ export const authOptions: NextAuthOptions = {
           id: String(user.id),
           email: user.email,
           name: user.name,
-          randomKey: 'Hey cool',
+          image: user.image, // Add the `image` property here
         };
       },
     }),
@@ -130,10 +131,16 @@ export const authOptions: NextAuthOptions = {
         const userData: {
           email: string;
           name: string | null | undefined;
+          image?: string;
         } = {
           email,
           name: user.name,
         };
+
+        if (user?.name) {
+          const avatarUrl = generateAvatarUrl(user.name);
+          userData.image = avatarUrl;
+        }
 
         dbUser = await prisma.user.create({
           data: userData,

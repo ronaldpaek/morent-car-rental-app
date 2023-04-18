@@ -27,7 +27,6 @@ const Login = () => {
         password,
         callbackUrl,
       });
-      console.log('callback------->', callbackUrl);
       if (!res?.error) {
         router.push(callbackUrl);
       } else {

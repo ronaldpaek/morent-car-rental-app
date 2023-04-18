@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { Filter } from 'components';
 
 const Search = () => {
