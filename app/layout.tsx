@@ -1,4 +1,5 @@
 import { Plus_Jakarta_Sans } from 'next/font/google';
+// import { getServerSession } from 'next-auth';
 import { Providers } from 'contexts';
 import { Navbar, Footer } from 'components';
 import 'styles/globals.css';
@@ -14,12 +15,15 @@ export const metadata = {
 };
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
+
   return (
     <html lang="en" className={`${plusJakartaSans.variable} font-sans`}>
       <body className="bg-gray-50">
-        <Navbar />
-        <Providers>{children}</Providers>
-        <Footer />
+        <Providers>
+          <Navbar />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

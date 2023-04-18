@@ -9,8 +9,8 @@ import Link from 'next/link';
 import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { signIn, signOut } from 'next-auth/react';
+import { useSession } from 'next-auth/react'
 
 type NavItemProps = {
   href: string;
@@ -89,8 +89,7 @@ function classNames(...classes: string[]) {
 }
 
 function Navbar() {
-  const router = useRouter();
-
+  const session =  useSession()
   const pathname = usePathname();
 
   if (pathname === '/register' || pathname === '/login') return null;
@@ -129,7 +128,7 @@ function Navbar() {
                   </div>
                 </div>
                 <div className="hidden sm:ml-auto sm:flex sm:items-center">
-                  {/* {user ? ( */}
+                  {/* {session?.user ? ( */}
                   <>
                     <button
                       type="button"

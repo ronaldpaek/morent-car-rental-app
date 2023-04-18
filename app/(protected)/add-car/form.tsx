@@ -53,7 +53,7 @@ const AddCarForm = () => {
           alt="User car"
           width={146}
           height={66}
-          className="mt-10 self-center lg:mt-0 lg:h-auto"
+          className="mt-10 self-center lg:mt-0 lg:h-auto lg:w-auto"
         />
       </div>
       <form action="#">
