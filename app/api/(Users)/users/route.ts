@@ -1,6 +1,5 @@
 import { prisma } from 'lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth/next';
 
 export async function GET(request: NextRequest) {
   const skip = request.nextUrl.searchParams.get('skip');
