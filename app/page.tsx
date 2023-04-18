@@ -1,9 +1,6 @@
-import { getServerSession } from 'next-auth/next';
-
-import { authOptions } from './api/auth/[...nextauth]/route';
 import User from './user';
 
-const Home = async ({ children }: { children: React.ReactNode }) => {
+const Home = async () => {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
       <User />
