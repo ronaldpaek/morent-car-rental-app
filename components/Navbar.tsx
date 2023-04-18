@@ -92,6 +92,11 @@ function Navbar() {
 
   if (pathname === '/register' || pathname === '/login') return null;
 
+  const handleSignOut = () => {
+    signOut({ redirect: false });
+    router.push('/login');
+  };
+
   return (
     <Disclosure as="nav">
       {({ open }) => (
@@ -184,10 +189,7 @@ function Navbar() {
                                       ? 'active:border-red-500 active:bg-red-50 active:text-red-700'
                                       : 'bg-transparent text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
                                   )}
-                                  onClick={() => {
-                                    signOut();
-                                    router.push('/login');
-                                  }}
+                                  onClick={handleSignOut}
                                 >
                                   Logout
                                 </button>
@@ -279,10 +281,7 @@ function Navbar() {
                       ))}
                       <Disclosure.Button
                         className="block w-full border-l-4 border-transparent py-2 pl-3 pr-4 text-left text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 active:border-red-500 active:bg-red-50 active:text-red-700"
-                        onClick={() => {
-                          signOut();
-                          router.push('/login');
-                        }}
+                        onClick={handleSignOut}
                       >
                         Logout
                       </Disclosure.Button>
