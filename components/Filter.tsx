@@ -2,13 +2,14 @@
 
 import { Fragment, useState } from 'react';
 import { Dialog, Disclosure, Transition } from '@headlessui/react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 // import TooltipSlider from './TooltipSlider';
 // import { cars, Car } from 'data';
 // import { CarCard, Button } from 'components';
 import { HiOutlineAdjustmentsHorizontal } from 'react-icons/hi2';
-import { Tooltip } from 'components';
+
+import { Tooltip } from '@/components/ui/tooltip';
 
 type FilterOption = {
   value: string | number;
@@ -56,7 +57,7 @@ function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function Filter() {
+export const Filter = () => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [type, setType] = useState<string[]>([]);
@@ -374,4 +375,4 @@ export default function Filter() {
       </div>
     </div>
   );
-}
+};

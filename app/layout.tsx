@@ -1,28 +1,70 @@
-import { Plus_Jakarta_Sans } from 'next/font/google';
-import { Providers } from 'contexts';
-import { Navbar, Footer } from 'components';
-import 'styles/globals.css';
+import { Inter as FontSans } from 'next/font/google';
 
-const plusJakartaSans = Plus_Jakarta_Sans({
+import '@/styles/globals.css';
+import { Providers } from '@/contexts/providers';
+
+import { siteConfig } from '@/config/site';
+import { cn } from '@/lib/utils';
+import { Analytics } from '@/components/analytics';
+import { TailwindIndicator } from '@/components/tailwind-indicator';
+import { Toaster } from '@/components/ui/toaster';
+
+const fontSans = FontSans({
   subsets: ['latin'],
-  variable: '--font-plus-jakarta-sans',
+  variable: '--font-inter',
 });
 
+interface RootLayoutProps {
+  children: React.ReactNode;
+}
+
 export const metadata = {
-  title: 'Jupiter Car Rent',
-  description: 'Jupiter Car Rent',
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  keywords: [
+    'Next.js',
+    'React',
+    'Tailwind CSS',
+    'Server Components',
+    'Radix UI',
+  ],
+  authors: [
+    {
+      name: 'Ronald Paek',
+      url: 'https://github.com/ronaldpaek',
+    },
+  ],
+  // themeColor: [
+  //   { media: '(prefers-color-scheme: light)', color: 'white' },
+  //   { media: '(prefers-color-scheme: dark)', color: 'black' },
+  // ],
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon-16x16.png',
+    apple: '/apple-touch-icon.png',
+  },
 };
 
-const RootLayout = async ({ children }: { children: React.ReactNode }) => {
+const RootLayout = ({ children }: RootLayoutProps) => {
   return (
-    <html lang="en" className={`${plusJakartaSans.variable} font-sans`}>
-      <body className="bg-gray-50">
-        <Providers>
-          <Navbar />
+    <html
+      lang="en"
+      className={cn(
+        'bg-white font-sans text-slate-900 antialiased',
+        fontSans.variable
+      )}
+    >
+      <Providers>
+        <body className="min-h-screen">
           {children}
-          <Footer />
-        </Providers>
-      </body>
+          <Analytics />
+          <Toaster />
+          <TailwindIndicator />
+        </body>
+      </Providers>
     </html>
   );
 };
