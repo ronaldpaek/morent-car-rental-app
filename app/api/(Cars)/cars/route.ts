@@ -17,30 +17,27 @@ export async function POST(req: Request) {
     const {
       make,
       model,
-      year,
-      color,
-      bodyType,
-      seatCapacity,
+      type,
+      seatingCapacity,
       fuelCapacity,
-      rentPrice,
+      price,
       description,
-      location,
-      ownerId,
+      location
     } = await req.json();
 
     const car = await prisma.car.create({
       data: {
         make,
         model,
-        year,
-        color,
-        bodyType,
-        seatCapacity,
-        fuelCapacity,
-        rentPrice,
+        color: "black",
+        year: 2000,
+        bodyType: type,
+        seatCapacity: parseInt(seatingCapacity),
+        fuelCapacity: parseInt(fuelCapacity),
+        rentPrice: parseFloat(price),
         description,
         location,
-        ownerId,
+        ownerId: 1,
       },
     });
 
@@ -49,8 +46,6 @@ export async function POST(req: Request) {
         car: {
           make: car.make,
           model: car.model,
-          year: car.year,
-          color: car.color,
           bodyType: car.bodyType,
           seatCapacity: car.seatCapacity,
           fuelCapacity: car.fuelCapacity,
