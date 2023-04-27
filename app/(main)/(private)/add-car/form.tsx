@@ -1,14 +1,44 @@
 'use client';
 
-import { useState } from 'react';
-import Image from 'next/image';
+import { useState, FormEvent, ChangeEvent, ChangeEventHandler } from 'react';
 import { PhotoIcon } from '@heroicons/react/24/solid';
+import Image from 'next/image';
 import { FaTrash } from 'react-icons/fa';
 
-// import { Button } from 'components';
-// import { DeleteIcon } from 'public/svgs';
-
 const AddCarForm = () => {
+  const [carDetail, setCarDetail] = useState({
+    make: '',
+    model: '',
+    type: '',
+    fuelCapacity: '',
+    seatingCapacity: '',
+    location: '',
+    price: '',
+    description: ''
+  })
+  
+  console.log(carDetail.type);
+  //ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+  
+    setCarDetail({
+      ...carDetail,
+      [name]: value,
+    })
+  }
+
+  const handleSelectInputChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    event.preventDefault();
+    const { name, value } = event.target;
+
+    setCarDetail({
+      ...carDetail,
+      [name]: value,
+    })
+  }
+
   // Step 1: Create state to manage the uploaded images
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
 
@@ -40,6 +70,33 @@ const AddCarForm = () => {
     setUploadedImages((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const handleKeyPress = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const response = await fetch('http://localhost:3000/api/cars', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        make: carDetail.make,
+        model: carDetail.model,
+        type: carDetail.type,
+        fuelCapacity: carDetail.fuelCapacity,
+        seatingCapacity: carDetail.seatingCapacity,
+        location: carDetail.location,
+        price: carDetail.price,
+        description: carDetail.description
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to submit form');
+    }
+
+    const data = await response.json();
+    console.log(data);
+  }
+
   return (
     <section className="mx-auto max-w-[852px] rounded-[10px] bg-white px-6 py-8 lg:py-16">
       <div className="mb-5 flex flex-col justify-between lg:mb-10 lg:flex-row lg:items-center">
@@ -57,7 +114,7 @@ const AddCarForm = () => {
           className="mt-10 self-center lg:mt-0 lg:h-auto lg:w-auto"
         />
       </div>
-      <form action="#">
+      <form onSubmit={handleKeyPress} action="#">
         <h2 className="mb-6 text-xl font-bold uppercase text-blue-500 lg:mb-9">
           Car Info
         </h2>
@@ -71,11 +128,13 @@ const AddCarForm = () => {
             </label>
             <input
               type="text"
-              name="car-make"
+              name="make"
               id="car-make"
               className="block w-full  rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-600 focus:ring-blue-600"
               placeholder="Car manufacturer"
               required
+              value={carDetail.make}
+              onChange={handleInputChange}
             />
           </div>
           <div>
@@ -87,11 +146,13 @@ const AddCarForm = () => {
             </label>
             <input
               type="text"
-              name="car-model"
+              name="model"
               id="car-model"
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:focus:border-blue-500 dark:focus:ring-blue-500"
               placeholder="Car model"
               required
+              value={carDetail.model}
+              onChange={handleInputChange}
             />
           </div>
           <div>
@@ -103,8 +164,10 @@ const AddCarForm = () => {
             </label>
             <select
               id="car-type"
-              name="car-type"
+              name="type"
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+              value={carDetail.type}
+              onChange={handleSelectInputChange}
             >
               <option value="">Select Type</option>
               <option value="Sport">Sport</option>
@@ -127,11 +190,13 @@ const AddCarForm = () => {
               type="number"
               min="0"
               max="100"
-              name="fuel-capacity"
+              name="fuelCapacity"
               id="fuel-capacity"
               className="block w-full  rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-600 focus:ring-blue-600 "
               placeholder="Capacity in gallons"
               required
+              value={carDetail.fuelCapacity}
+              onChange={handleInputChange}
             />
           </div>
           <div>
@@ -143,8 +208,10 @@ const AddCarForm = () => {
             </label>
             <select
               id="seating-capacity"
-              name="seating-capacity"
+              name="seatingCapacity"
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+              value={carDetail.seatingCapacity}
+              onChange={handleSelectInputChange}
             >
               <option value="">Select Capacity</option>
               <option value={2}>2 Person</option>
@@ -165,6 +232,8 @@ const AddCarForm = () => {
               id="location"
               name="location"
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+              value={carDetail.location}
+              onChange={handleSelectInputChange}
             >
               <option value="">Select your city</option>
               <option value="New York">New York</option>
@@ -189,11 +258,13 @@ const AddCarForm = () => {
               min="0"
               max="100"
               step="0.01"
-              name="rent-price"
+              name="price"
               id="rent-price"
               className="block w-full  rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-600 focus:ring-blue-600 "
               placeholder="Price in dollars"
               required
+              value={carDetail.price}
+              onChange={handleInputChange}
             />
           </div>
           <div className="sm:col-span-2">
@@ -205,10 +276,12 @@ const AddCarForm = () => {
             </label>
             <textarea
               id="car-description"
-              name="car-description"
+              name="description"
               rows={8}
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
               placeholder="Your car description here"
+              value={carDetail.description}
+              onChange={handleInputChange}
             />
           </div>
         </div>

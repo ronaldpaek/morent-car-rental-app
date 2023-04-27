@@ -1,4 +1,7 @@
-import { Inter as FontSans } from 'next/font/google';
+import { Inter as FontSans, Plus_Jakarta_Sans } from 'next/font/google';
+// import { getServerSession } from 'next-auth';
+import { ReduxProviders } from './GlobalRedux/provider'
+import 'styles/globals.css';
 
 import '@/styles/globals.css';
 import { Providers } from '@/contexts/providers';
@@ -58,12 +61,14 @@ const RootLayout = ({ children }: RootLayoutProps) => {
       )}
     >
       <Providers>
-        <body className="min-h-screen">
-          {children}
-          <Analytics />
-          <Toaster />
-          <TailwindIndicator />
-        </body>
+        <ReduxProviders>
+          <body className="min-h-screen">
+            {children}
+            <Analytics />
+            <Toaster />
+            <TailwindIndicator />
+          </body>
+        </ReduxProviders>
       </Providers>
     </html>
   );
