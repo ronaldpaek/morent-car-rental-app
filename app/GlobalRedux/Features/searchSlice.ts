@@ -42,4 +42,4 @@ export const { searchCar } = searchSlice.actions;
 
 export default searchSlice.reducer;
 
-export const searchCarSelector = (state) => state.search;
+export const searchCarSelector = (state: string) => state.search;

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, FormEvent, ChangeEvent } from 'react';
+import { useState, FormEvent, ChangeEvent, ChangeEventHandler } from 'react';
 import { PhotoIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import { FaTrash } from 'react-icons/fa';
@@ -18,7 +18,7 @@ const AddCarForm = () => {
   })
   
   console.log(carDetail.type);
-  
+  //ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -28,6 +28,17 @@ const AddCarForm = () => {
       [name]: value,
     })
   }
+
+  const handleSelectInputChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    event.preventDefault();
+    const { name, value } = event.target;
+
+    setCarDetail({
+      ...carDetail,
+      [name]: value,
+    })
+  }
+
   // Step 1: Create state to manage the uploaded images
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
 
@@ -156,7 +167,7 @@ const AddCarForm = () => {
               name="type"
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
               value={carDetail.type}
-              onChange={handleInputChange}
+              onChange={handleSelectInputChange}
             >
               <option selected value="" disabled>
                 Select Type
@@ -202,7 +213,7 @@ const AddCarForm = () => {
               name="seatingCapacity"
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
               value={carDetail.seatingCapacity}
-              onChange={handleInputChange}
+              onChange={handleSelectInputChange}
             >
               <option selected value="" disabled>
                 Select Capacity
@@ -226,7 +237,7 @@ const AddCarForm = () => {
               name="location"
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
               value={carDetail.location}
-              onChange={handleInputChange}
+              onChange={handleSelectInputChange}
             >
               <option selected value="" disabled>
                 Select your city
