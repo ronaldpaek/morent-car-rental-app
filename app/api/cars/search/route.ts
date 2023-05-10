@@ -5,21 +5,38 @@ export async function GET(req: Request) {
     const { searchParams } = req.nextUrl
     try {
         const make = searchParams.get('make')
+        const model = searchParams.get('model')
         const seatCapacity = parseInt(searchParams.get('seatCapacity'))
         const type = searchParams.get('type')
         const location = searchParams.get('location')
         const price = parseFloat(searchParams.get('price'))
         const cars = await prisma.car.findMany({
+            
             where: {
-               make: {
-                   contains: make || undefined
-               },
-               seatCapacity: seatCapacity || undefined,
-               bodyType: type || undefined,
-               location: location || undefined,
-               rentPrice: {
-                   lt: price || undefined
-               }
+                // OR: [
+                //     {
+                //         make: {
+                //             contains: make || undefined
+                //         },
+                //     },
+                //     {
+                //         model: {
+                //             contains: make || undefined
+                //         }
+                //     }
+                // ],
+                make: {
+                    contains: make || undefined
+                },
+                model: {
+                    contains: model || undefined
+                },
+                seatCapacity: seatCapacity || undefined,
+                bodyType: type || undefined,
+                location: location || undefined,
+                rentPrice: {
+                    lt: price || undefined
+                }
             }
         });
 
