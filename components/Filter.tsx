@@ -11,6 +11,24 @@ import { HiOutlineAdjustmentsHorizontal } from 'react-icons/hi2';
 
 import { Tooltip } from '@/components/ui/tooltip';
 
+import { getGetCarsQuery, useGetCarsQuery } from '@/services/supacars';
+
+interface Car{
+  id: Number,
+  make: String,
+  model: String,
+  year: Number,
+  color: String,
+  bodyType: String,
+  seatCapacity: Number,
+  fuelCapacity: Number,
+  rentPrice: Number,
+  description: String,
+  location: String,
+  ownerId: Number,
+  available: Boolean
+}
+
 type FilterOption = {
   value: string | number;
   label: string;
@@ -63,6 +81,19 @@ export const Filter = () => {
   const [type, setType] = useState<string[]>([]);
   const [capacity, setCapacity] = useState<number[]>([]);
   const [price, setPrice] = useState(80);
+
+  const { data, isFetching, error } = useGetCarsQuery({searchText, price});
+
+  if (isFetching) {
+    return (
+      <div>Loading... please wait :)</div>
+    )
+  }
+
+  console.log(data);
+  console.log(searchText);
+  console.log(type);
+  console.log(capacity);
 
   const handleTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -370,6 +401,11 @@ export const Filter = () => {
               ))} */}
             {/* Your content */}
             {/* </div> */}
+            <div>
+              {data?.map((car: Car) => (
+                <div>{car.make}</div>
+              ))}
+            </div>
           </div>
         </main>
       </div>

@@ -5,7 +5,6 @@ export async function GET(req: Request) {
     const { searchParams } = req.nextUrl
     try {
         const make = searchParams.get('make')
-        const model = searchParams.get('model')
         const seatCapacity = parseInt(searchParams.get('seatCapacity'))
         const type = searchParams.get('type')
         const location = searchParams.get('location')
@@ -13,30 +12,23 @@ export async function GET(req: Request) {
         const cars = await prisma.car.findMany({
             
             where: {
-                // OR: [
-                //     {
-                //         make: {
-                //             contains: make || undefined
-                //         },
-                //     },
-                //     {
-                //         model: {
-                //             contains: make || undefined
-                //         }
-                //     }
-                // ],
-                make: {
-                    contains: make || undefined
-                },
-                model: {
-                    contains: model || undefined
-                },
-                seatCapacity: seatCapacity || undefined,
-                bodyType: type || undefined,
-                location: location || undefined,
-                rentPrice: {
-                    lt: price || undefined
-                }
+                AND: [
+                    {
+                        OR: [
+                                { make: { contains: make || undefined } },
+                                { model: { contains: make || undefined } },
+                                null,
+                        ]
+                    },
+                    {
+                        seatCapacity: seatCapacity || undefined,
+                        bodyType: type || undefined,
+                        location: location || undefined,
+                        rentPrice: {
+                            lt: price || undefined
+                        }
+                    }
+                ]
             }
         });
 
