@@ -82,7 +82,7 @@ export const Filter = () => {
   const [capacity, setCapacity] = useState<number[]>([]);
   const [price, setPrice] = useState(80);
 
-  const { data, isFetching, error } = useGetCarsQuery({searchText, price});
+  const { data, isFetching, error } = useGetCarsQuery(searchText);
 
   if (isFetching) {
     return (
