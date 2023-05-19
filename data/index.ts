@@ -45,6 +45,18 @@ type carListing = {
   available: boolean;
 };
 
+export interface ICar {
+  id: number;
+  make: string;
+  model: string;
+  bodyType: string;
+  seatCapacity: number;
+  fuelCapacity: number;
+  rentPrice: number;
+  location: string;
+  ownerId: number;
+}
+
 const carListings: carListing[] = [
   {
     id: 1,

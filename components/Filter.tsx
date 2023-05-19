@@ -6,12 +6,13 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 // import TooltipSlider from './TooltipSlider';
 // import { cars, Car } from 'data';
-// import { CarCard, Button } from 'components';
+import CarCard from '@/components/CarCard';
 import { HiOutlineAdjustmentsHorizontal } from 'react-icons/hi2';
 
 import { Tooltip } from '@/components/ui/tooltip';
 
 import { getGetCarsQuery, useGetCarsQuery } from '@/services/supacars';
+import React from 'react';
 
 interface Car{
   id: Number,
@@ -403,7 +404,11 @@ export const Filter = () => {
             {/* </div> */}
             <div>
               {data?.map((car: Car) => (
-                <div>{car.make}</div>
+                <>
+                  <div>{car.make}</div>
+                  {/* Need to fix typing for Car Interface */}
+                  {/* <CarCard car={car} /> */}
+                </>   
               ))}
             </div>
           </div>
