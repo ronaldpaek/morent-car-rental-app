@@ -7,28 +7,13 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 // import TooltipSlider from './TooltipSlider';
 // import { cars, Car } from 'data';
 import CarCard from '@/components/CarCard';
+import { Car } from '@/data/index';
 import { HiOutlineAdjustmentsHorizontal } from 'react-icons/hi2';
 
 import { Tooltip } from '@/components/ui/tooltip';
 
 import { getGetCarsQuery, useGetCarsQuery } from '@/services/supacars';
 import React from 'react';
-
-interface Car{
-  id: Number,
-  make: String,
-  model: String,
-  year: Number,
-  color: String,
-  bodyType: String,
-  seatCapacity: Number,
-  fuelCapacity: Number,
-  rentPrice: Number,
-  description: String,
-  location: String,
-  ownerId: Number,
-  available: Boolean
-}
 
 type FilterOption = {
   value: string | number;
@@ -83,7 +68,10 @@ export const Filter = () => {
   const [capacity, setCapacity] = useState<number[]>([]);
   const [price, setPrice] = useState(80);
 
-  const { data, isFetching, error } = useGetCarsQuery(searchText);
+  const { data, isFetching, error } = useGetCarsQuery({searchText, type: type[0] ? type[0] : "", seatCapacity: capacity[0] ? capacity[0] : 0});
+
+  console.log(type[0]);
+  console.log('hello world')
 
   if (isFetching) {
     return (
@@ -91,10 +79,10 @@ export const Filter = () => {
     )
   }
 
-  console.log(data);
-  console.log(searchText);
-  console.log(type);
-  console.log(capacity);
+  // console.log(data);
+  // console.log(searchText);
+  // console.log(type);
+  // console.log(capacity);
 
   const handleTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -407,7 +395,7 @@ export const Filter = () => {
                 <>
                   <div>{car.make}</div>
                   {/* Need to fix typing for Car Interface */}
-                  {/* <CarCard car={car} /> */}
+                  <CarCard car={car} />
                 </>   
               ))}
             </div>

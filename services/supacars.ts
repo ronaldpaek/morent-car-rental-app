@@ -20,8 +20,8 @@ export const supacarsApi = createApi({
     reducerPath: 'supacarsApi',
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/api' }),
     endpoints: (builder) => ({
-        getCars: builder.query<Car[], string>({
-            query: (searchText: string) => `/cars/search?make=${searchText}&price=100`,
+        getCars: builder.query<Car[], {searchText: string; type: string; seatCapacity: number}>({
+            query: ({searchText, type, seatCapacity}) => `/cars/search?make=${searchText}&price=100&type=${type}&seatCapacity=${seatCapacity}`,
         }),
     })
 })

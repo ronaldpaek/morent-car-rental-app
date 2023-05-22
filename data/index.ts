@@ -45,16 +45,20 @@ type carListing = {
   available: boolean;
 };
 
-export interface ICar {
-  id: number;
-  make: string;
-  model: string;
-  bodyType: string;
-  seatCapacity: number;
-  fuelCapacity: number;
-  rentPrice: number;
-  location: string;
-  ownerId: number;
+export interface Car{
+  id: Number,
+  make: String,
+  model: String,
+  year: Number,
+  color: String,
+  bodyType: String,
+  seatCapacity: Number,
+  fuelCapacity: Number,
+  rentPrice: Number,
+  description: String,
+  location: String,
+  ownerId: Number,
+  available: Boolean
 }
 
 const carListings: carListing[] = [
