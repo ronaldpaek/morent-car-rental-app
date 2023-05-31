@@ -114,23 +114,23 @@ const AddCarForm = () => {
     // console.log(cloudinarySignature);
     const formData = new FormData();
 
-    uploadedFiles.forEach(function (imageFile: File) {
+    for (const imageFile of uploadedFiles) {
       console.log('uploading files list', imageFile);
       formData.append('file', imageFile)
-    })
+      formData.append('upload_preset', 'morent-uploads');
+    
+      const fileResponse = await fetch('https://api.cloudinary.com/v1_1/ddn1veduz/image/upload', {
+        method: 'POST',
+        body: formData
+      }).then(response => response.json());
+
+      console.log(fileResponse);
+    }
     // formData.append('timestamp', timestamp.toString());
     // formData.append('api_key', cloudinaryKey);
     // formData.append('signature', cloudinarySignature);
 
-    formData.append('upload_preset', 'morent-uploads');
-    
-  
-    const fileResponse = await fetch('https://api.cloudinary.com/v1_1/ddn1veduz/image/upload', {
-      method: 'POST',
-      body: formData
-    });
-
-    if (!dataResponse.ok && !fileResponse.ok) {
+    if (!dataResponse.ok) {
       throw new Error('Failed to submit form');
     }
 
