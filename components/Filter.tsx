@@ -70,9 +70,6 @@ export const Filter = () => {
 
   const { data, isFetching, error } = useGetCarsQuery({searchText, type: type[0] ? type[0] : "", seatCapacity: capacity[0] ? capacity[0] : 0});
 
-  console.log(type[0]);
-  console.log('hello world')
-
   if (isFetching) {
     return (
       <div>Loading... please wait :)</div>

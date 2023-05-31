@@ -4,6 +4,17 @@ import { useState, FormEvent, ChangeEvent, ChangeEventHandler } from 'react';
 import { PhotoIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import { FaTrash } from 'react-icons/fa';
+import crypto from 'crypto';
+import { number, string } from 'prop-types';
+
+const cloudinaryKey = "766964324596744";
+const cloudinarySecret = 'tFIzw_6yDMXeMKPbX1O6XrpGVEU';
+
+function calculateSHA1(timestamp: number, apiKey: string, apiSecret: string): string {
+  const signaturePayload = `timestamp=${timestamp}&apiKey=${apiKey}${apiSecret}`;
+  const signature = crypto.createHash('sha1').update(signaturePayload).digest('hex');
+  return signature;
+}
 
 const AddCarForm = () => {
   const [carDetail, setCarDetail] = useState({
@@ -17,7 +28,7 @@ const AddCarForm = () => {
     description: ''
   })
   
-  console.log(carDetail.type);
+  // console.log(carDetail.type);
   //ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     e.preventDefault();
@@ -41,6 +52,11 @@ const AddCarForm = () => {
 
   // Step 1: Create state to manage the uploaded images
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  
+
+  // console.log(uploadedImages);
+  // console.log(uploadedFiles);
 
   // Step 2: Create event handlers for drag and drop
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -61,8 +77,11 @@ const AddCarForm = () => {
   // Step 3: Modify the input's onChange event to handle multiple file uploads
   const uploadFiles = (files: FileList) => {
     const fileList = Array.from(files);
+    console.log("filllleslist", fileList);
     const newImages = fileList.map((file) => URL.createObjectURL(file));
+    const newFiles = fileList.map((file) => (file));
     setUploadedImages((prev) => [...prev, ...newImages]);
+    setUploadedFiles((prev) => [...prev, ...newFiles]);
   };
 
   // Step 4: Implement delete functionality
@@ -72,7 +91,7 @@ const AddCarForm = () => {
 
   const handleKeyPress = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await fetch('http://localhost:3000/api/cars', {
+    const dataResponse = await fetch('http://localhost:3000/api/cars', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -87,14 +106,37 @@ const AddCarForm = () => {
         price: carDetail.price,
         description: carDetail.description
       })
+    });  
+
+    const timestamp = Math.floor(Date.now() / 1000);
+
+    // const cloudinarySignature = calculateSHA1(timestamp, cloudinaryKey, cloudinarySecret);
+    // console.log(cloudinarySignature);
+    const formData = new FormData();
+
+    uploadedFiles.forEach(function (imageFile: File) {
+      console.log('uploading files list', imageFile);
+      formData.append('file', imageFile)
+    })
+    // formData.append('timestamp', timestamp.toString());
+    // formData.append('api_key', cloudinaryKey);
+    // formData.append('signature', cloudinarySignature);
+
+    formData.append('upload_preset', 'morent-uploads');
+    
+  
+    const fileResponse = await fetch('https://api.cloudinary.com/v1_1/ddn1veduz/image/upload', {
+      method: 'POST',
+      body: formData
     });
 
-    if (!response.ok) {
+    if (!dataResponse.ok && !fileResponse.ok) {
       throw new Error('Failed to submit form');
     }
 
-    const data = await response.json();
-    console.log(data);
+    const data = await dataResponse.json();
+
+    console.log('data', data);
   }
 
   return (
@@ -295,7 +337,7 @@ const AddCarForm = () => {
               key={index}
               className="relative rounded-lg bg-gray-100 p-2 sm:h-36 sm:w-36"
             >
-              <Image src={src} alt={`Uploaded ${index}`} />
+              <Image src={src} alt={`Uploaded ${index}`} width={75} height={25} />
               <button
                 type="button"
                 onClick={() => handleDelete(index)}
@@ -361,13 +403,14 @@ const AddCarForm = () => {
           </div>
         </div>
         {/* // Display the uploaded images and add delete functionality */}
-        <div className="mt-4 flex flex-wrap gap-2">
+        {/* <div className="mt-4 flex flex-wrap gap-2">
           {uploadedImages.map((src, index) => (
-            <div key={src} className="relative">
+            <div key={src} className="relative w-20">
               <Image
                 src={src}
                 alt={`Uploaded ${index}`}
                 className="h-24 w-24 rounded object-cover"
+                width={100}
               />
               <button
                 onClick={() => handleDelete(index)}
@@ -377,7 +420,7 @@ const AddCarForm = () => {
               </button>
             </div>
           ))}
-        </div>
+        </div> */}
         <div className="mt-4 flex flex-col items-end justify-end gap-5 lg:flex-row">
           <button
             // intent="danger"
