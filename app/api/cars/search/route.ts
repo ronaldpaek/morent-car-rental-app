@@ -29,6 +29,9 @@ export async function GET(req: Request) {
                         }
                     }
                 ]
+            },
+            include: {
+                images: true,
             }
         });
 

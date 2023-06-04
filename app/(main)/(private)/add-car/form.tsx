@@ -77,7 +77,6 @@ const AddCarForm = () => {
   // Step 3: Modify the input's onChange event to handle multiple file uploads
   const uploadFiles = (files: FileList) => {
     const fileList = Array.from(files);
-    console.log("filllleslist", fileList);
     const newImages = fileList.map((file) => URL.createObjectURL(file));
     const newFiles = fileList.map((file) => (file));
     setUploadedImages((prev) => [...prev, ...newImages]);
@@ -91,6 +90,24 @@ const AddCarForm = () => {
 
   const handleKeyPress = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    let imageArray: Array<string> = [];
+    const formData = new FormData();
+
+    for (const imageFile of uploadedFiles) {
+      console.log('uploading files list', imageFile);
+      formData.append('file', imageFile)
+      formData.append('upload_preset', 'morent-uploads');
+    
+      const fileResponse = await fetch('https://api.cloudinary.com/v1_1/ddn1veduz/image/upload', {
+        method: 'POST',
+        body: formData
+      }).then(response => response.json());
+
+      console.log(fileResponse.url, "fileResponse");
+      imageArray.push(fileResponse.url as string);
+    }
+
     const dataResponse = await fetch('http://localhost:3000/api/cars', {
       method: 'POST',
       headers: {
@@ -104,31 +121,11 @@ const AddCarForm = () => {
         seatingCapacity: carDetail.seatingCapacity,
         location: carDetail.location,
         price: carDetail.price,
-        description: carDetail.description
+        description: carDetail.description,
+        images: imageArray,
       })
     });  
 
-    const timestamp = Math.floor(Date.now() / 1000);
-
-    // const cloudinarySignature = calculateSHA1(timestamp, cloudinaryKey, cloudinarySecret);
-    // console.log(cloudinarySignature);
-    const formData = new FormData();
-
-    for (const imageFile of uploadedFiles) {
-      console.log('uploading files list', imageFile);
-      formData.append('file', imageFile)
-      formData.append('upload_preset', 'morent-uploads');
-    
-      const fileResponse = await fetch('https://api.cloudinary.com/v1_1/ddn1veduz/image/upload', {
-        method: 'POST',
-        body: formData
-      }).then(response => response.json());
-
-      console.log(fileResponse);
-    }
-    // formData.append('timestamp', timestamp.toString());
-    // formData.append('api_key', cloudinaryKey);
-    // formData.append('signature', cloudinarySignature);
 
     if (!dataResponse.ok) {
       throw new Error('Failed to submit form');

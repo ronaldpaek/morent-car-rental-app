@@ -22,7 +22,8 @@ export async function POST(req: Request) {
       fuelCapacity,
       price,
       description,
-      location
+      location,
+      images
     } = await req.json();
 
     const car = await prisma.car.create({
@@ -40,6 +41,19 @@ export async function POST(req: Request) {
         ownerId: 1,
       },
     });
+
+    for (const image of images) {
+      await prisma.carImage.create({
+        data: {
+          url: image,
+          car: {
+            connect: {
+              id: car.id,
+            }
+          }
+        }
+      })
+    }
 
     return new NextResponse(
       JSON.stringify({
