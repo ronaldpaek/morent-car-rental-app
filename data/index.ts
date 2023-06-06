@@ -58,7 +58,8 @@ export interface Car{
   description: String,
   location: String,
   ownerId: Number,
-  available: Boolean
+  available: Boolean,
+  images?: Array<{ id: Number, url: String }>
 }
 
 const carListings: carListing[] = [

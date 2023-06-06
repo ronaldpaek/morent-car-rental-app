@@ -10,9 +10,7 @@ import CarCard from '@/components/CarCard';
 import { Car } from '@/data/index';
 import { HiOutlineAdjustmentsHorizontal } from 'react-icons/hi2';
 
-import { Tooltip } from '@/components/ui/tooltip';
-
-import { getGetCarsQuery, useGetCarsQuery } from '@/services/supacars';
+import { useGetCarsQuery } from '@/services/supacars';
 import React from 'react';
 
 type FilterOption = {
@@ -76,7 +74,7 @@ export const Filter = () => {
     )
   }
 
-  // console.log(data);
+  console.log(data[19].images, "data I'm looking for");
   // console.log(searchText);
   // console.log(type);
   // console.log(capacity);
@@ -390,7 +388,9 @@ export const Filter = () => {
             <div>
               {data?.map((car: Car) => (
                 <>
+                
                   <div>{car.make}</div>
+                  <img src={data?[19]?.images[0].url}/>
                   {/* Need to fix typing for Car Interface */}
                   <CarCard car={car} />
                 </>   
